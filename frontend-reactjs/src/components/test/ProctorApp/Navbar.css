@@ -1,0 +1,39 @@
+/* Navbar.css */
+
+.navbarr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e1e6ef;
+  padding: 12px 24px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.13); /* replaced hex transparency with rgba */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbarr-title {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.navbarr-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.captured-image {
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.captured-image:hover {
+  transform: scale(1.05);
+}

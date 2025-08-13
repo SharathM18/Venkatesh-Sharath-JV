@@ -1,0 +1,15 @@
+npm run start:dev
+npm run dev
+uvicorn app.main:app --reload
+
+python -m venv venv
+
+activate: run bat file in Script //for windows
+
+source .venv/Srcipts/activate
+
+install py libs
+pip install -r requirement.txt
+
+to run main python
+uvicorn app.main:app --reload

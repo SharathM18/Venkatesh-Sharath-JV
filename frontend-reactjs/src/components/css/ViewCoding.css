@@ -1,0 +1,87 @@
+.coding-questions-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.coding-questions-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters input,
+.filters select {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.loading,
+.no-results {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.problems-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 15px;
+}
+
+.problem-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.problem-card h2 {
+  margin-top: 0;
+}
+
+.problem-card .key {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.problem-card .description {
+  font-size: 0.95rem;
+  margin: 8px 0;
+}
+
+.problem-card ul {
+  padding-left: 20px;
+}
+
+.difficulty {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  text-transform: capitalize;
+}
+
+.difficulty.easy {
+  background-color: #28a745;
+}
+
+.difficulty.medium {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.difficulty.hard {
+  background-color: #dc3545;
+}

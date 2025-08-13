@@ -1,0 +1,86 @@
+.add-coding-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #f9f9f9;
+}
+h2{
+    color: green;
+}
+.add-coding-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.coding-form{
+    min-width: 500px;
+    min-height: auto;
+}
+
+.coding-form fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    background-color: #fff;
+}
+
+.coding-form legend {
+    font-weight: bold;
+    padding: 0 0.5rem;
+}
+
+.coding-form label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+.coding-form input,
+.coding-form select {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.coding-form button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid green;
+    background-color: white;
+    color: green;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.coding-form button:hover {
+    background-color: green;
+    color: white;
+}
+
+.submit-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.submit-btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #006f00;
+}

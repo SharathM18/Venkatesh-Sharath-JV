@@ -1,0 +1,81 @@
+.view-questions-container {
+  text-align: left;
+  padding: 1rem;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Button Group for MCQ Actions */
+.mcq-button-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Individual Button for Question Actions */
+.mcq-question-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #e6f7ec;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.mcq-question-button:hover {
+  transform: scale(1.02);
+}
+
+/* Icon inside Question Button */
+.mcq-question-icon {
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem 0.75rem;
+  font-weight: bold;
+}
+
+
+/* .view-questions-container {
+  text-align: left;
+  padding: 1rem;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.question-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #e6f7ec;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.question-button:hover {
+  transform: scale(1.02);
+}
+
+.icon {
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem 0.75rem;
+  font-weight: bold;
+} */

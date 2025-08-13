@@ -1,0 +1,89 @@
+.all-users-container {
+  max-width: 95vw;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.all-users-container h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.75rem;
+  color: #333;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table thead th {
+  background-color: #f3f4f6;
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
+
+.user-table thead input {
+  width: 90%;
+  padding: 6px;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.user-table tbody td {
+  padding: 10px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eee;
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-table tbody tr:hover {
+  background-color: #eef6ff;
+}
+
+/* Optional: Styling for the Add Job button */
+.question {
+  text-align: right;
+  margin: 1rem 2rem;
+}
+
+.question-button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.user-table thead input {
+  width: 90%;
+  padding: 6px;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.title{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2em 0 2em;
+}

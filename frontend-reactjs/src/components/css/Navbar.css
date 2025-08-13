@@ -1,0 +1,126 @@
+/* 🧼 Reset — already handled in index/app.css, remove from here */
+:where(.navbar *) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar Container */
+.navbar {
+  width: 100%;
+  height: 10vh;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
+  font-family: "Segoe UI", sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Left Section (Logo) */
+.navbar__logo {
+  height: 50px;
+  width: auto;
+}
+
+/* Center Nav Links */
+.navbar__center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar__links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar__links li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar__links li a:hover {
+  color: green;
+}
+
+/* Right Side User Section */
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar__user {
+  font-weight: 600;
+  color: #444;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+/* Button Styles */
+.navbar__btn {
+  padding: 0.4rem 1rem;
+  border: 1px solid green;
+  background-color: transparent;
+  color: green;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Hover State */
+.navbar__btn:hover {
+  background-color: green;
+  color: white;
+}
+
+/* Scoped .btn inside button */
+.navbar__btn .btn {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar__btn .btn:hover {
+  color: inherit;
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .navbar__center {
+    justify-content: flex-start;
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  .navbar__links {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navbar__right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

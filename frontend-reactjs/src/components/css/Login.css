@@ -1,0 +1,109 @@
+.login-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  min-height: 40vh;
+  box-sizing: border-box;
+  gap: 2rem;
+}
+
+.login-form-section {
+  flex: 1;
+  max-width: 400px;
+}
+
+.login-form-section h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.login-form-section .highlight {
+  color: green;
+  font-weight: bold;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form input {
+  padding: 0.9rem;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  transition: border-bottom 0.3s ease;
+  outline: none;
+}
+
+.login-form input:focus {
+  border-bottom: 2px solid green;
+}
+
+.login-form button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #007f00;
+}
+
+.login-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.divider {
+  margin-top: 2rem;
+  border: none;
+  border-top: 1px solid #ddd;
+  width: 100%;
+}
+
+.login-image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image-section img.login-graphic {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .login-form-section {
+    width: 100%;
+    max-width: none;
+  }
+
+  .login-image-section {
+    order: -1;
+    margin-bottom: 1rem;
+  }
+}
