@@ -90,12 +90,12 @@ const TestPage = () => {
     const handleTabChange = () => {
       if (document.hidden) {
         toast.warning("Tab switching is not allowed.");
-        if (malpracticeCount < 50) {
+        if (malpracticeCount < 7) {
           dispatch(incrementMalpractice());
         }
 
         const newCount = malpracticeCount + 1;
-        if (newCount >= 50) {
+        if (newCount >= 7) {
           dispatch(
             setAlertMessage("❌ Test terminated due to multiple malpractices.")
           );

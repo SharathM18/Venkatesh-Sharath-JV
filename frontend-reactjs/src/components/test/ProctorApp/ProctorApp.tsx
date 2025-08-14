@@ -37,11 +37,11 @@ const ProctorApp: React.FC<MyComponentProps> = ({ handleFinalSubmit }) => {
   };
 
   const handleMalpracticeDetected = (message: string): void => {
-    if (handlingViolation.current || malpracticeCount >= 50) return;
+    if (handlingViolation.current || malpracticeCount >= 7) return;
 
     handlingViolation.current = true;
 
-    if (verificationComplete && malpracticeCount < 50) {
+    if (verificationComplete && malpracticeCount < 7) {
       dispatch(incrementMalpractice());
     }
 
@@ -49,7 +49,7 @@ const ProctorApp: React.FC<MyComponentProps> = ({ handleFinalSubmit }) => {
       handlingViolation.current = false;
 
       const updatedCount = malpracticeCount - 1;
-      if (updatedCount >= 50) {
+      if (updatedCount >= 7) {
         dispatch(
           setAlertMessage("❌ Test terminated due to multiple malpractices.")
         );
@@ -60,7 +60,7 @@ const ProctorApp: React.FC<MyComponentProps> = ({ handleFinalSubmit }) => {
   };
 
   useEffect(() => {
-    if (malpracticeCount === 50) {
+    if (malpracticeCount === 7) {
       dispatch(setIsTestCompleted(true));
       dispatch(
         setAlertMessage("❌ Test terminated due to multiple malpractices.")
@@ -74,7 +74,7 @@ const ProctorApp: React.FC<MyComponentProps> = ({ handleFinalSubmit }) => {
       <div className="main-content">
         {isTestStarted && !isTestCompleted && (
           <div className="violation-count">
-            Violations: {malpracticeCount}/50
+            Violations: {malpracticeCount}/7
           </div>
         )}
         <WebcamCapture

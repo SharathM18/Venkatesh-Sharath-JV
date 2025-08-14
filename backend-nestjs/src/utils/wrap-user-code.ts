@@ -166,7 +166,7 @@ export function wrapUserCode({
             parser += `    ${name} = [list(map(int, re.split(r"[\\s,]+", row.strip()))) for row in lines[${idx}].strip().split(';') if row.strip()]\n`;
             idx++;
           } else if (type.toLowerCase().startsWith('list[')) {
-            const innerType = type.slice(5, -1).trim();
+            const innerType = type.slice(5, -1).trim().toLowerCase();
             if (innerType === 'int') {
               parser += `    ${name} = list(map(int, re.split(r"[\\s,]+", lines[${idx++}].strip())))\n`;
             } else if (innerType === 'float' || innerType === 'double') {
@@ -178,7 +178,7 @@ export function wrapUserCode({
             } else {
               parser += `    ${name} = re.split(r"[\\s,]+", lines[${idx++}].strip())\n`; // default string
             }
-          } else if (type.startsWith('tuple[')) {
+          } else if (type.toLowerCase().startsWith('tuple[')) {
             const innerTypes = type
               .slice(6, -1)
               .split(',')
@@ -195,7 +195,7 @@ export function wrapUserCode({
               return `${lineRef}[${i}]`; // string fallback
             });
             parser += `    ${name} = (${tupleParts.join(', ')})\n`;
-          } else if (type.startsWith('set[')) {
+          } else if (type.toLowerCase().startsWith('set[')) {
             const innerType = type.slice(4, -1).trim();
             if (innerType === 'int') {
               parser += `    ${name} = set(map(int, re.split(r"[\\s,]+", lines[${idx++}].strip())))\n`;
@@ -208,7 +208,10 @@ export function wrapUserCode({
             } else {
               parser += `    ${name} = set(re.split(r"[\\s,]+", lines[${idx++}].strip()))\n`; // default string
             }
-          } else if (type.startsWith('dict[') || type.startsWith('map[')) {
+          } else if (
+            type.toLowerCase().startsWith('dict[') ||
+            type.startsWith('map[')
+          ) {
             const content = type.slice(type.indexOf('[') + 1, -1).split(',');
             const keyType = content[0]?.trim();
             const valueType = content[1]?.trim();
@@ -275,7 +278,7 @@ ${pyInputParser}
         if (!paramStr) return [];
 
         return paramStr.split(',').map((param) => {
-          const match = param.match(/(\w+)\s*(?:\/\*\s*(\w+)\s*\*\/)?/);
+          const match = param.match(/(\w+)\s*(?:\/\*\s*([\w\[\]]+)\s*\*\/)?/);
           if (!match) return { name: param.trim(), type: 'string' };
           const [, name, typeRaw] = match;
           const type = typeRaw?.toLowerCase() || 'string';
@@ -286,32 +289,7 @@ ${pyInputParser}
       const jsCompatibleSignature = stripTypes(signature);
       const params = extractParamsFromSignature(signature);
       const paramNames = params.map((p) => p.name).join(', ');
-
-      const jsInputParser = (() => {
-        const lineSplitCode = `const values = line.trim().split(/\\s+/);`;
-        let index = 0;
-        const extractors = params.map(({ name, type }) => {
-          if (type === 'int')
-            return `const ${name} = parseInt(values[${index++}]);`;
-          if (type === 'float' || type === 'double')
-            return `const ${name} = parseFloat(values[${index++}]);`;
-          if (type === 'bool' || type === 'boolean')
-            return `const ${name} = values[${index++}].toLowerCase() === 'true';`;
-          if (type === 'string') return `const ${name} = line.trim();`;
-          if (type === 'int[]')
-            return `const ${name} = line.trim().split(/\\s+/).map(Number);`;
-          if (type === 'float[]' || type === 'double[]')
-            return `const ${name} = line.trim().split(/\\s+/).map(parseFloat);`;
-          if (type === 'string[]')
-            return `const ${name} = line.trim().split(/\\s+/);`;
-          if (type === 'int[][]')
-            return `const ${name} = line.trim().split(';').map(row => row.split(/\\s+|,/).map(Number));`;
-          if (type === 'string[][]')
-            return `const ${name} = line.trim().split(';').map(row => row.split(/\\s+|,/));`;
-          return `// Unsupported type for ${name}`;
-        });
-        return [lineSplitCode, ...extractors].join('\n    ');
-      })();
+      const paramCount = params.length;
 
       const functionName =
         jsCompatibleSignature.match(
@@ -319,18 +297,37 @@ ${pyInputParser}
         )?.[1] || 'func';
 
       return `
-// ${jsCompatibleSignature}
+//${jsCompatibleSignature}
 ${userCode}
-// }
+//}
 
 let input = '';
 process.stdin.on('data', chunk => input += chunk);
 process.stdin.on('end', () => {
   const lines = input.trim().split(/\\r?\\n/).filter(Boolean);
-  lines.forEach(line => {
-    ${jsInputParser}
-    console.log(${functionName}(${paramNames}));
-  });
+  const params = ${JSON.stringify(params)};
+
+  for (let i = 0; i < lines.length;) {
+    const args = [];
+
+    for (let j = 0; j < ${paramCount}; j++, i++) {
+      const line = lines[i] || '';
+      const type = params[j]?.type || 'string';
+
+      if (type === "int") args.push(parseInt(line.trim()));
+      else if (type === "float" || type === "double") args.push(parseFloat(line.trim()));
+      else if (type === "bool" || type === "boolean") args.push(line.trim().toLowerCase() === 'true');
+      else if (type === "string") args.push(line.trim());
+      else if (type === "int[]") args.push(line.trim().split(/\\s+/).map(Number));
+      else if (type === "float[]" || type === "double[]") args.push(line.trim().split(/\\s+/).map(parseFloat));
+      else if (type === "string[]") args.push(line.trim().split(/\\s+/));
+      else if (type === "int[][]") args.push(line.trim().split(';').map(row => row.split(/\\s+|,/).map(Number)));
+      else if (type === "string[][]") args.push(line.trim().split(';').map(row => row.split(/\\s+|,/)));
+      else args.push(line);
+    }
+
+    console.log(${functionName}(...args));
+  }
 });
 `.trim();
     }
@@ -592,7 +589,7 @@ int main() {
             return `vector<vector<string>> ${p.name};`;
           return `// Unsupported type for ${p.name}`;
         })
-        .join('\n  ');
+        .join('\n  ');
       const input = params
         .map((p) => {
           if (p.type === 'int' || p.type === 'string')
@@ -631,7 +628,7 @@ int main() {
 }`;
           return `// Unsupported input type for ${p.name}`;
         })
-        .join('\n  ');
+        .join('\n  ');
       return `
 #include <iostream>
 #include <vector>
