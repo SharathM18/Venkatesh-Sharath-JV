@@ -1,0 +1,78 @@
+.mcq-result-container {
+  max-width: 90vw;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mcq-result-container h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.mcq-final-score {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.mcq-question-card {
+  border: 1px solid #ccc;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: box-shadow 0.2s;
+}
+
+.mcq-question-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.mcq-question-title {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.mcq-options-list {
+  list-style-type: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 0.75rem; /* spacing between options */
+}
+
+.mcq-option {
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  color: #111;
+  border: 1px solid #d1d5db; /* subtle border for professional card feel */
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.mcq-option.correct {
+  color: green;
+  font-weight: bold;
+  border-color: green;
+  background-color: #ecfdf5;
+}
+
+.mcq-option.incorrect-selected {
+  color: red;
+  font-weight: bold;
+  border-color: red;
+  background-color: #fef2f2;
+}
+
+.mcq-option:hover {
+  background-color: #e0f2fe; /* subtle hover for user feedback */
+}

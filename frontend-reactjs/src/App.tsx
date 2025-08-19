@@ -20,6 +20,8 @@ import Logout from "./components/Logout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TestPage from "./components/test/TestPage";
 import ThankYou from "./components/test/ThankYou";
+import McqResult from "./components/McqResult";
+import CodingResult from "./components/CodingResult";
 
 function App() {
   return (
@@ -167,6 +169,34 @@ function App() {
                         ]}
                       >
                         <Results />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/results/mcq/:applicantId"
+                    element={
+                      <ProtectedRoute
+                        allowedRoles={[
+                          "super admin",
+                          "manager",
+                          "talent acquisition",
+                        ]}
+                      >
+                        <McqResult />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/results/coding/:applicantId"
+                    element={
+                      <ProtectedRoute
+                        allowedRoles={[
+                          "super admin",
+                          "manager",
+                          "talent acquisition",
+                        ]}
+                      >
+                        <CodingResult />
                       </ProtectedRoute>
                     }
                   />

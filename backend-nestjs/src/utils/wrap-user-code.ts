@@ -318,15 +318,22 @@ process.stdin.on('end', () => {
       else if (type === "float" || type === "double") args.push(parseFloat(line.trim()));
       else if (type === "bool" || type === "boolean") args.push(line.trim().toLowerCase() === 'true');
       else if (type === "string") args.push(line.trim());
-      else if (type === "int[]") args.push(line.trim().split(/\\s+/).map(Number));
+      else if (type === "int[]" || type === "number[]") args.push(line.trim().split(/\\s+/).map(Number));
       else if (type === "float[]" || type === "double[]") args.push(line.trim().split(/\\s+/).map(parseFloat));
       else if (type === "string[]") args.push(line.trim().split(/\\s+/));
-      else if (type === "int[][]") args.push(line.trim().split(';').map(row => row.split(/\\s+|,/).map(Number)));
+      else if (type === "int[][]" || type === "number[][]") args.push(line.trim().split(';').map(row => row.split(/\\s+|,/).map(Number)));
       else if (type === "string[][]") args.push(line.trim().split(';').map(row => row.split(/\\s+|,/)));
       else args.push(line);
     }
+    function formatOutput(result) {
+  if (Array.isArray(result)) {
+     return JSON.stringify(result);
+  }
+  return result;
+}
 
-    console.log(${functionName}(...args));
+    const result = ${functionName}(...args);
+    console.log(formatOutput(result));
   }
 });
 `.trim();
@@ -401,7 +408,20 @@ ${userCode}
         ${javaInput}
         sc.close();
 
-        System.out.println(${functionName}(${argsStr}));
+
+        Object result = ${functionName}(${argsStr});
+
+        if (result instanceof int[]) {
+            System.out.println(Arrays.toString((int[]) result));
+        } else if (result instanceof String[]) {
+            System.out.println(Arrays.toString((String[]) result));
+        } else if (result instanceof int[][]) {
+            System.out.println(Arrays.deepToString((int[][]) result));
+        } else if (result instanceof String[][]) {
+            System.out.println(Arrays.deepToString((String[][]) result));
+        } else {
+            System.out.println(result);
+        }
     }
 }
             `.trim();
@@ -500,6 +520,7 @@ string[][] ${name} = rows${uniqueSuffix}
       return `
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 public class MainClass {
     // ${signature}
@@ -511,8 +532,39 @@ public class MainClass {
         ${csharpInput}
 
         var result = ${functionName}(${argsStr});
+       PrintResult(result);
+    }
+    public static void PrintResult(object result) {
+    if (result == null) {
+        Console.WriteLine("null");
+        return;
+    }
+
+    Type type = result.GetType();
+
+    // Handle arrays dynamically
+    if (type.IsArray) {
+        var arr = (Array)result;
+
+        // Check if it's a jagged array (array of arrays)
+        if (type.GetElementType().IsArray) {
+            // e.g. int[][], string[][]
+            var rows = new List<string>();
+            foreach (var row in arr) {
+                if (row is Array inner) {
+                    rows.Add("[" + string.Join(", ", inner.Cast<object>()) + "]");
+                }
+            }
+            Console.WriteLine("[" + string.Join(";", rows) + "]");
+        } else {
+            // Simple array like int[], string[], bool[], double[] etc.
+            Console.WriteLine("[" + string.Join(", ", arr.Cast<object>()) + "]");
+        }
+    } else {
+        // For scalars (int, string, bool, etc.)
         Console.WriteLine(result);
     }
+}
 }
   `.trim();
     }
