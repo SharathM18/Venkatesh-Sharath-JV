@@ -103,18 +103,27 @@ export class EvaluationService {
 
     const getDifficultyCounts = (
       total: number,
-      split: Record<'easy' | 'medium' | 'hard', number>,
+      split: Partial<Record<'easy' | 'medium' | 'hard', number>> = {},
       allowHard: boolean,
     ) => {
+      // Ensure all keys exist and default to 0
+      const safeSplit = {
+        easy: split.easy ?? 0,
+        medium: split.medium ?? 0,
+        hard: split.hard ?? 0,
+      };
+
       const adjustedSplit = allowHard
-        ? split
+        ? safeSplit
         : {
             easy:
-              split.easy +
-              (split.hard / 100) * (split.easy / (split.easy + split.medium)),
+              safeSplit.easy +
+              (safeSplit.hard / 100) *
+                (safeSplit.easy / (safeSplit.easy + safeSplit.medium || 1)),
             medium:
-              split.medium +
-              (split.hard / 100) * (split.medium / (split.easy + split.medium)),
+              safeSplit.medium +
+              (safeSplit.hard / 100) *
+                (safeSplit.medium / (safeSplit.easy + safeSplit.medium || 1)),
             hard: 0,
           };
 
@@ -132,16 +141,20 @@ export class EvaluationService {
       };
     };
 
+    // Safe fetchQuestionsBySkill
     const fetchQuestionsBySkill = async (
       skillId: string,
       totalCount: number,
       allowHard: boolean,
+      difficultySplit?: Partial<Record<'easy' | 'medium' | 'hard', number>>,
     ): Promise<McqQuestion[]> => {
+      // Use safe defaults if difficultySplit is missing
       const counts = getDifficultyCounts(
         totalCount,
-        difficultySplit,
+        difficultySplit ?? { easy: 50, medium: 50, hard: 0 },
         allowHard,
       );
+
       const result: McqQuestion[] = [];
       const alreadyFetched = new Set<string>();
 
@@ -168,7 +181,7 @@ export class EvaluationService {
         result.push(...questions);
       }
 
-      // Fallback to fill if not enough fetched
+      // Fallback if not enough questions fetched
       const remaining = totalCount - result.length;
       if (remaining > 0) {
         const fallbackQuery = this.questionRepo
